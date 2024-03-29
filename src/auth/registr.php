@@ -11,7 +11,7 @@ session_start();
     <link rel="stylesheet" href="../style/main.css">
 </head>
 <body>
-    
+    <h1>Регистрация</h1>
     <form action="signup.php" method="post">
         <label>Логин:</label>
         <input type="text" placeholder="Введите логин" name="login" required>

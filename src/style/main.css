@@ -17,17 +17,19 @@ form, div{
 }
 label{
     padding: 10px;
-    margin: 20px 20px 5px 20px;
+    margin: 20px 20px 0px 20px;
     font-size: 20px;
     color: black;
     text-align: center;
 }
-input, button, a, form, div{
+input, button, a, form, div, h1, h2, textarea{
     padding: 10px;
-    margin: 20px;
-    font-size: 16px;
+    margin: 15px;
     border-radius: 5px;
     color: black;
     background: white;
     text-align: center;
+}
+input, button, a, form, div, textarea{
+font-size: 16px;
 }

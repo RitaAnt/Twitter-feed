@@ -16,6 +16,5 @@ if($result->num_rows > 0) {
 
     header('Location: ../profile.php');
 } else {
-    // Перенаправление на страницу входа в случае неудачной аутентификации
     header('Location: ../index.php');
 }

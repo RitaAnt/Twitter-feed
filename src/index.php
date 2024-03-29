@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style/main.css">
 </head>
 <body>
-
+    <h1>Вход в аккаунт</h1>
     <form action="auth/signin.php" method="post">
         <label>Логин:</label>
         <input type="text" placeholder="Введите логин" name="login" required>
