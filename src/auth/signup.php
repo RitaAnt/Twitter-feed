@@ -8,8 +8,8 @@ $repeatpass = $_POST['repeatpass'];
 $email = $_POST['email'];
 
 if($pass != $repeatpass){
-    
-    $_SESSION['message'] = 'Пароли не совпадают';
+    session_start();
+    $_SESSION['message'] = 'Пароли не совпадают!';
     header('Location: registr.php');
 
 } else{

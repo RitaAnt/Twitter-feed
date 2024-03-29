@@ -28,12 +28,12 @@ session_start();
         <button type="submit">Зарегистрироваться</button>
     </form>
 
-    <p>
+    <h3 class="message">
         <?php
         echo $_SESSION['message']; 
-        unset($_SESSION['message'])
+        unset($_SESSION['message']);
         ?>
-    </p>
+    </h3>
 
-    </body>
+</body>
 </html>

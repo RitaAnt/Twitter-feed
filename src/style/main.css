@@ -43,3 +43,7 @@ font-size: 18px;
 button:hover{
     box-shadow: 2px 2px 5px black;
 }
+.message{
+    color: rgb(184, 9, 9);
+    text-align: center;
+}
