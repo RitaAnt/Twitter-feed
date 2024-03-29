@@ -10,10 +10,10 @@
 
     <form action="auth/signin.php" method="post">
         <label>Логин:</label>
-        <input type="text" required placeholder="Введите логин" name="login">
+        <input type="text" placeholder="Введите логин" name="login" required>
 
         <label>Почта:</label>
-        <input type="password" required placeholder="Введите пароль" name="pass">
+        <input type="password" placeholder="Введите пароль" name="pass" required>
 
         <button type="submit">Войти</button>
     </form>

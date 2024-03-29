@@ -14,16 +14,16 @@ session_start();
     
     <form action="signup.php" method="post">
         <label>Логин:</label>
-        <input type="text" required placeholder="Введите логин" name="login">
+        <input type="text" placeholder="Введите логин" name="login" required>
 
         <label>Пароль:</label>
-        <input type="password" required placeholder="Введите пароль" name="pass">
+        <input type="password" placeholder="Введите пароль" name="pass" required>
 
         <label>Подтверждение пароля:</label>
-        <input type="password" required placeholder="Подтвердите пароль" name="repeatpass">
+        <input type="password" placeholder="Подтвердите пароль" name="repeatpass" required>
 
         <label>Почта:</label>
-        <input type="email" required placeholder="Введите почту" name="email">
+        <input type="email" placeholder="Введите почту" name="email" required>
 
         <button type="submit">Зарегистрироваться</button>
     </form>
