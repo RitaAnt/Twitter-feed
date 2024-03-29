@@ -16,7 +16,9 @@ if($pass != $repeatpass){
     $sql = "INSERT INTO `users` (login, password, email) VALUES ('$login', '$pass', '$email')";
 
     if($conn -> query($sql)){
-        "Успешная регистрация";
+        session_start();
+        $_SESSION['message'] = 'Пользователь успешно создан!';
+        header('Location: ../index.php');
     } else {
         echo "Ошибка: ". $conn -> error;
     }
