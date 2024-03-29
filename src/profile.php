@@ -30,7 +30,7 @@ if(isset($_SESSION['user_id'])) {
     $result_posts = $conn->query($sql_posts);
     echo "<div>";
     if($result_posts->num_rows > 0) {
-        echo "<h2>Посты пользователя</h2>";
+        echo "<h2>Ваши посты:</h2>";
         while($post = $result_posts->fetch_assoc()) {
             echo "<div class='post'>";
             echo "<h3>{$post['title']}</h3>";
