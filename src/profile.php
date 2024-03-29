@@ -32,9 +32,10 @@ if(isset($_SESSION['user_id'])) {
     if($result_posts->num_rows > 0) {
         echo "<h2>Посты пользователя</h2>";
         while($post = $result_posts->fetch_assoc()) {
-            echo "<div>";
+            echo "<div class='post'>";
             echo "<h3>{$post['title']}</h3>";
-            echo "<p>{$post['content']}</p>";
+            echo "<h4>{$post['content']}</h4>";
+            echo "<p>{$post['likes']}</p>";
             echo "</div>";
         }
     } else {
