@@ -13,9 +13,9 @@ if($result -> num_rows > 0){
         $user = $result->fetch_assoc();
         session_start();
         $_SESSION['user_id'] = $user['id'];
-
-        header('Location: ../profile.php');
+        echo $user;
+        //header('Location: ../../src/profile.php');
     }
 } else{
-    header('Location: ../index.php');
+    header('Location: ../../src/index.php');
 }
