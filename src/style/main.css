@@ -15,13 +15,6 @@ form, div{
     flex-direction: column;
     align-items: center;
 }
-#post{
-    width: 400px;
-    border: solid 1px grey;
-    border-radius: 15px;
-    display: flex;
-}
-
 label{
     padding: 10px;
     margin: 20px 20px 0px 20px;
@@ -42,8 +35,38 @@ font-size: 18px;
 }
 button:hover{
     box-shadow: 2px 2px 5px black;
+
 }
 .message{
     color: rgb(250, 110, 67);
     text-align: center;
+}
+#posts{
+    display: flex;
+    justify-content: center; /* Центрируем по горизонтали */
+    align-items: center; /* Центрируем по вертикали */
+    
+}
+#posts-div{
+    width: 50%;
+    max-width: 500px;
+    border: 1px solid black;
+    align-items: flex-start;
+    padding: 15px;
+}
+#posts-data{
+    font-size: 14px;
+    color: grey;
+}
+#posts-author, #posts-content, #posts-data{
+    margin-bottom: 10px;
+}
+.posts-like-button{
+    
+    padding: 0 5px;
+    margin: 0 15px;
+    border: 0.2px solid grey;
+}
+.posts-like-button:hover{
+    box-shadow: 1px 1px 3px grey;
 }

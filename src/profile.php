@@ -26,22 +26,23 @@ if(isset($_SESSION['user_id'])) {
     echo "<h1>Добро пожаловать, {$user['login']}!</h1>";
 
 
-    $sql_posts = "SELECT * FROM posts WHERE user_id = $user_id";
+    $sql_posts = "SELECT posts.*, users.login AS user_login FROM posts INNER JOIN users ON posts.user_id = users.id";
     $result_posts = $conn->query($sql_posts);
-    echo "<div>";
     if($result_posts->num_rows > 0) {
         echo "<h2>Ваши посты:</h2>";
         while($post = $result_posts->fetch_assoc()) {
-            echo "<div class='post'>";
-            echo "<h3>{$post['title']}</h3>";
-            echo "<h4>{$post['content']}</h4>";
-            echo "<p>{$post['likes']}</p>";
-            echo "</div>";
+            echo "<div id='posts'>";
+            echo "<div id='posts-div'>";
+            echo "<h3 id='posts-author'>Автор: {$post['user_login']}</h3>";
+            echo "<p id='posts-content'>{$post['content']}</p>";
+            echo "<p id='posts-data'>{$post['created_at']}</p>";
+            echo "<p id='posts-likes'>{$post['likes']}<button id='posts-like-button'>♥</button></p>";
+            echo "</div></div>";
         }
     } else {
         echo "<p>У вас нет постов.</p>";
     }
-    echo "<a href='posts/create_post.php'>Создать пост</a></div>";
+    echo "<a href='posts/create_post.php'>Создать пост</a>";
 } else {
     header('Location: index.php');
 }
