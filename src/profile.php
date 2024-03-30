@@ -51,7 +51,7 @@ if(isset($_SESSION['user_id'])) {
 }
 ?>
 
-<div id="edit-post-form" class="modal" style="display: none;">
+<div id="edit-post-form" class="comment-modal" style="display: none;">
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Редактировать пост</h2>
@@ -95,7 +95,6 @@ $(document).ready(function(){
 $(document).ready(function(){
     $(".posts-edit-button").click(function(){
         var postId = $(this).attr("data-post-id"); 
-        console.log("Post ID:", postId); // Отладочная информация
         var postContent = $(this).closest("#posts-div").find("#posts-content").text(); 
         $("#edit-post-id").val(postId); 
         $("#edited-content").val(postContent); 
@@ -103,27 +102,30 @@ $(document).ready(function(){
     });
 
     $("#edit-form").submit(function(e){
-        e.preventDefault();
-        var formData = $(this).serialize(); 
-        $.post("posts/edit_post.php", formData, function(data, status){
-            console.log("Response data:", data); // Отладочная информация
-            if (data === "success") {
-                // Обновление содержимого поста на странице
-                var postId = $("#edit-post-id").val();
-                var editedContent = $("#edited-content").val();
-                console.log("Post ID:", postId); // Отладочная информация
-                console.log("Edited content:", editedContent); // Отладочная информация
-                var postContentElement = $("#posts-content[data-post-id='" + postId + "']");
-                console.log("Post content element:", postContentElement); // Отладочная информация
-                postContentElement.text(editedContent);
-                
-                // Скрыть модальное окно
-                $("#edit-post-form").hide();
-                alert("Пост успешно изменен");
-            } else {
-                alert(data);
-            }
-        });
+    e.preventDefault();
+    var formData = $(this).serialize(); 
+    $.post("posts/edit_post.php", formData, function(data, status){
+        console.log(data)
+        if (data === "success") {
+            // Получаем ID поста
+            var postId = $("#edit-post-id").val();
+            // Получаем новое содержимое поста
+            var editedContent = $("#edited-content").val();
+            // Находим соответствующий элемент на странице и обновляем его содержимое
+            $("#posts-content[data-post-id='" + postId + "']").html(editedContent);
+            // Скрыть модальное окно
+            $(".comment-modal").hide();
+            alert("Пост успешно изменен");
+        } else {
+            alert("Ошибка при изменении поста");
+        }
+    });
+});
+
+});
+$(document).ready(function(){
+    $(".close").click(function(){
+        $(".comment-modal").hide();
     });
 });
 

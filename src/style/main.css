@@ -110,6 +110,8 @@ a:hover{
     margin: 0;
 }
 .comment-modal {
+    margin: 0;
+    border-radius: 0;
     display: none;
     position: fixed; 
     top: 0;
