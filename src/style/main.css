@@ -101,3 +101,27 @@ a:hover{
     margin: 0;
     padding: 0;
 }
+.show-comment-form-button{
+    margin: 0;
+}
+.comment-modal {
+    display: none;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999; 
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    margin: 100px auto; 
+}
+.close:hover{
+    cursor: pointer;
+}

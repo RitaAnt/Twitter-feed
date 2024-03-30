@@ -25,13 +25,26 @@
                 echo "<p id='posts-data'>{$row['created_at']}</p>";
                 echo "<div id='like-button'><p id='posts-likes'>{$row['likes']}</p>";
                 echo "<button class='posts-like-button' data-post-id='{$row['id']}'>♥</button>";
-                echo "</div></div></div>";
+                echo "</div></div>";
+                echo "<button class='show-comment-form-button' data-post-id={$row['id']}>Оставить комментарий</button></div>";
+
             }
         } else {
             echo "<div>Постов пока нет.</div>";
         }
 
     ?>
+<div class="comment-modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Оставить комментарий</h2>
+    <form id="comment-form" action="../likes_comments/comment.php" method="post">
+      <textarea name="comment" id="comment" placeholder="Введите ваш комментарий" required></textarea>
+      <input type="hidden" name="post_id" id="post-id">
+      <button type="submit">Отправить</button>
+    </form>
+  </div>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -45,6 +58,24 @@ $(document).ready(function(){
         });
     });
 });
+$(document).ready(function(){
+  $(".show-comment-form-button").click(function(){
+    var postId = $(this).data("post-id"); 
+    $("#post-id").val(postId);
+    $(".comment-modal").show();
+  });
+
+  $(".close").click(function(){
+    $(".comment-modal").hide();
+  });
+
+  $(window).click(function(event) {
+    if (event.target == $(".comment-modal")[0]) {
+      $(".comment-modal").hide();
+    }
+  });
+});
+
 </script>
 
 </body>
