@@ -74,10 +74,13 @@ a:hover{
 #posts-author, #posts-content, #posts-data{
     margin-bottom: 10px;
 }
-#posts-like-button{
-    padding: 0 5px;
+#posts-like-button, #posts-edit-button, #posts-delete-button{
     margin: 0 15px;
     border: 0.2px solid grey;
+}
+#posts-edit-button, #posts-delete-button{
+    font-size: 15px;
+    padding: 5px 10x;
 }
 #posts-like-button:hover{
     box-shadow: 1px 1px 3px grey;

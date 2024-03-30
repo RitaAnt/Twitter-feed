@@ -8,24 +8,31 @@ if(isset($_SESSION['user_id'])) {
         $content = $_POST['content'];
         $user_id = $_SESSION['user_id'];
 
+        // Проверяем длину содержимого
         if(strlen($content) > 512) {
             $_SESSION['message'] = "Содержимое поста слишком длинное. Максимальное количество символов - 512.";
             header("Location: create_post.php");
-            exit; 
+            exit;
         } else {
-            $sql = "INSERT INTO posts (content, user_id) VALUES ('$content', '$user_id')";
+            $sql = "INSERT INTO posts (content, user_id) VALUES (?, ?)";
 
-            if($conn->query($sql) === TRUE) {
+            $stmt = $conn->prepare($sql);
+
+            $stmt->bind_param("si", $content, $user_id); // s - строка, i - целое число
+
+            if($stmt->execute()) {
                 header("Location: ../profile.php");
             } else {
-                echo "Ошибка: " . $sql . "<br>" . $conn->error;
+                echo "Ошибка: " . $stmt->error;
             }
+
+            $stmt->close();
+            $conn->close();
         }
-        $conn->close();
     } else {
         header("Location: ../index.php");
     }
 } else {
     header('Location: ../index.php');
 }
-
+?>

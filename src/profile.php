@@ -18,7 +18,6 @@ if(isset($_SESSION['user_id'])) {
     require_once('includes/db.php');
 
     $user_id = $_SESSION['user_id'];
-
     $sql_user = "SELECT * FROM users WHERE id = $user_id";
     $result_user = $conn->query($sql_user);
     $user = $result_user->fetch_assoc();
@@ -26,17 +25,20 @@ if(isset($_SESSION['user_id'])) {
     echo "<h1>Добро пожаловать, {$user['login']}!</h1>";
 
 
-    $sql_posts = "SELECT posts.*, users.login AS user_login FROM posts INNER JOIN users ON posts.user_id = users.id";
+    $sql_posts = "SELECT * from posts where user_id = $user_id";
     $result_posts = $conn->query($sql_posts);
     if($result_posts->num_rows > 0) {
         echo "<h2>Ваши посты:</h2>";
         while($post = $result_posts->fetch_assoc()) {
             echo "<div id='posts'>";
             echo "<div id='posts-div'>";
-            echo "<h3 id='posts-author'>Автор: {$post['user_login']}</h3>";
+            echo "<h3 id='posts-author'>Автор: {$user['login']}</h3>";
             echo "<p id='posts-content'>{$post['content']}</p>";
             echo "<p id='posts-data'>{$post['created_at']}</p>";
-            echo "<p id='posts-likes'>{$post['likes']}<button id='posts-like-button'>♥</button></p>";
+            echo "<p id='posts-likes'>{$post['likes']}
+            <button id='posts-like-button'>♥</button>
+            <button id='posts-edit-button'>Изменить</button>
+            <button id='posts-delete-button'>Удалить</button></p>";
             echo "</div></div>";
         }
     } else {
