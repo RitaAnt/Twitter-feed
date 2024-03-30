@@ -13,7 +13,7 @@
     <?php
         require_once('../includes/db.php'); 
 
-        $sql = "SELECT posts.*, users.login AS user_login FROM posts INNER JOIN users ON posts.user_id = users.id";
+        $sql = "SELECT posts.*, users.login AS user_login FROM posts INNER JOIN users ON posts.user_id = users.id ORDER BY posts.created_at DESC";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -25,7 +25,6 @@
                 echo "<p id='posts-data'>{$row['created_at']}</p>";
                 echo "<div id='like-button'><p id='posts-likes'>{$row['likes']}</p>";
                 echo "<button class='posts-like-button' data-post-id='{$row['id']}'>♥</button>";
-                echo "post id = ".$row['id'];
                 echo "</div></div></div>";
             }
         } else {
