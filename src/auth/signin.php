@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once('../includes/db.php');
 
 $login = $_POST['login'];
@@ -16,5 +16,6 @@ if($result->num_rows > 0) {
 
     header('Location: ../profile.php');
 } else {
+    $_SESSION['message'] = "Такого пользователя нет(";
     header('Location: ../index.php');
 }
