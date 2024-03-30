@@ -33,7 +33,7 @@ if(isset($_SESSION['user_id'])) {
             echo "<div id='posts'>";
             echo "<div id='posts-div'>";
             echo "<h3 id='posts-author'>Автор: {$user['login']}</h3>";
-            echo "<p id='posts-content'>{$post['content']}</p>";
+            echo "<p class='posts-content'>{$post['content']}</p>";
             echo "<p id='posts-data'>{$post['created_at']}</p>";
             echo "<div id='like-button'><p id='posts-likes'>{$post['likes']}</p>";
             echo "<button class='posts-like-button' data-post-id='{$post['id']}'>♥</button>";
@@ -95,7 +95,7 @@ $(document).ready(function(){
 $(document).ready(function(){
     $(".posts-edit-button").click(function(){
         var postId = $(this).attr("data-post-id"); 
-        var postContent = $(this).closest("#posts-div").find("#posts-content").text(); 
+        var postContent = $(this).closest("#posts-div").find(".posts-content").text(); 
         $("#edit-post-id").val(postId); 
         $("#edited-content").val(postContent); 
         $("#edit-post-form").show(); 
@@ -107,13 +107,11 @@ $(document).ready(function(){
     $.post("posts/edit_post.php", formData, function(data, status){
         console.log(data)
         if (data === "success") {
-            // Получаем ID поста
             var postId = $("#edit-post-id").val();
-            // Получаем новое содержимое поста
             var editedContent = $("#edited-content").val();
-            // Находим соответствующий элемент на странице и обновляем его содержимое
-            $("#posts-content[data-post-id='" + postId + "']").html(editedContent);
-            // Скрыть модальное окно
+            console.log(postId);
+            console.log(editedContent);
+            $(".posts-content[data-post-id='" + postId + "']").html(editedContent);
             $(".comment-modal").hide();
             alert("Пост успешно изменен");
         } else {

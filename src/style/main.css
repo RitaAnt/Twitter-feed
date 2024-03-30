@@ -73,7 +73,7 @@ a:hover{
     color: grey;
     margin-top: 10px;
 }
-#posts-author, #posts-content, #posts-data{
+#posts-author, .posts-content, #posts-data{
     margin-bottom: 10px;
 }
 .posts-like-button, .posts-edit-button, .posts-delete-button{
