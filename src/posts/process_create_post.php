@@ -8,7 +8,6 @@ if(isset($_SESSION['user_id'])) {
         $content = $_POST['content'];
         $user_id = $_SESSION['user_id'];
 
-        // Проверяем длину содержимого
         if(strlen($content) > 512) {
             $_SESSION['message'] = "Содержимое поста слишком длинное. Максимальное количество символов - 512.";
             header("Location: create_post.php");
