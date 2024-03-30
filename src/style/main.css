@@ -22,13 +22,21 @@ label{
     color: black;
     text-align: center;
 }
-input, button, a, form, div, h1, h2, textarea{
+input, button, a, form, div, h1, h2{
     padding: 10px;
     margin: 15px;
     border-radius: 13px;
     color: black;
     background: white;
     text-align: center;
+    text-decoration: none;
+}
+textarea{
+    padding: 10px;
+    margin: 15px;
+    border-radius: 13px;
+    color: black;
+    background: white;
     text-decoration: none;
 }
 input, button, a, form, div, textarea{
@@ -47,26 +55,26 @@ a:hover{
 }
 #posts{
     display: flex;
-    justify-content: center; /* Центрируем по горизонтали */
-    align-items: center; /* Центрируем по вертикали */
-    
+    justify-content: center; 
+    align-items: center; 
 }
 #posts-div{
     width: 50%;
     max-width: 500px;
     border: 1px solid black;
     align-items: flex-start;
+    text-align: left;
     padding: 15px;
 }
 #posts-data{
     font-size: 14px;
     color: grey;
+    margin-top: 10px;
 }
 #posts-author, #posts-content, #posts-data{
     margin-bottom: 10px;
 }
 #posts-like-button{
-    
     padding: 0 5px;
     margin: 0 15px;
     border: 0.2px solid grey;

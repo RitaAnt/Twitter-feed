@@ -40,7 +40,7 @@ if(isset($_SESSION['user_id'])) {
             echo "</div></div>";
         }
     } else {
-        echo "<p>У вас нет постов.</p>";
+        echo "<div>У вас нет постов.</div>";
     }
     
 } else {
