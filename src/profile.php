@@ -46,6 +46,6 @@ if(isset($_SESSION['user_id'])) {
     header('Location: index.php');
 }
 ?>
-
+<a href='posts/all_posts.php'>Лента</a>
 </body>
 </html>
