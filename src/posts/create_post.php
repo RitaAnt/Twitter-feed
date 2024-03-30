@@ -15,7 +15,7 @@
             <label for="content">Содержание:</label><br>
             <textarea id="content" name="content" rows="8" cols="50" required></textarea><br>
             
-            <input type="submit" value="Создать пост">
+            <button type="submit">Создать пост</button>
         </form>
         </div>
 </body>
