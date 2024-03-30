@@ -74,7 +74,7 @@ a:hover{
 #posts-author, #posts-content, #posts-data{
     margin-bottom: 10px;
 }
-#posts-like-button, #posts-edit-button, #posts-delete-button{
+.posts-like-button, #posts-edit-button, #posts-delete-button{
     margin: 0 15px;
     border: 0.2px solid grey;
 }
@@ -82,7 +82,7 @@ a:hover{
     font-size: 15px;
     padding: 5px 10x;
 }
-#posts-like-button:hover{
+.posts-like-button:hover{
     box-shadow: 1px 1px 3px grey;
 }
 #nav-div{
@@ -94,4 +94,10 @@ a:hover{
 #nav-div a{
     margin: 5px;
     font-size: 18px;
+}
+#like-button{
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
 }

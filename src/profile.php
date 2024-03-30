@@ -35,11 +35,12 @@ if(isset($_SESSION['user_id'])) {
             echo "<h3 id='posts-author'>Автор: {$user['login']}</h3>";
             echo "<p id='posts-content'>{$post['content']}</p>";
             echo "<p id='posts-data'>{$post['created_at']}</p>";
-            echo "<p id='posts-likes'>{$post['likes']}
-            <button id='posts-like-button'>♥</button>
-            <button id='posts-edit-button'>Изменить</button>
-            <button id='posts-delete-button'>Удалить</button></p>";
-            echo "</div></div>";
+            echo "<div id='like-button'><p id='posts-likes'>{$post['likes']}</p>";
+            echo "<button id='posts-like-button' data-post-id='{$post['id']}'>♥</button>";
+            //<!--<button id='posts-edit-button'>Изменить</button>
+            //<button id='posts-delete-button'>Удалить</button></p>-->";
+            echo "</div></div></div>";
+
         }
     } else {
         echo "<div>У вас нет постов.</div>";
@@ -49,5 +50,22 @@ if(isset($_SESSION['user_id'])) {
     header('Location: index.php');
 }
 ?>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    $("#posts-like-button").click(function(){
+        var postId = $(this).data("post-id"); 
+        var likesCountElement = $(this).closest('#posts-div').find('#posts-likes');
+        console.log(likesCountElement);
+        $.post("likes_comments/like.php", {postId: postId}, function(data, status){
+            likesCountElement.text(data);
+            console.log(likesCountElement);
+        });
+    });
+});
+</script>
 </body>
 </html>
