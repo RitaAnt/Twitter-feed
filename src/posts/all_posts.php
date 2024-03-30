@@ -26,8 +26,30 @@
                 echo "<div id='like-button'><p id='posts-likes'>{$row['likes']}</p>";
                 echo "<button class='posts-like-button' data-post-id='{$row['id']}'>♥</button>";
                 echo "</div></div>";
+                
+                $post_id = $row['id'];
+                $comments_sql = "SELECT * FROM comments WHERE post_id = $post_id";
+                $comments_result = $conn->query($comments_sql);
+        
+                
+                if ($comments_result->num_rows > 0) {
+                    while($comment_row = $comments_result->fetch_assoc()) {
+                        $comment_user_id = $comment_row['user_id'];
+                        $comment_user_sql = "SELECT login FROM users WHERE id = $comment_user_id";
+                        $comment_user_result = $conn->query($comment_user_sql);
+                        $comment_user_data = $comment_user_result->fetch_assoc();
+                        $comment_author = $comment_user_data['login'];
+                        echo "<div class='comments'>";
+                        echo "<div class='comments-div'>";
+                        echo "<h3 class='comments-author'>{$comment_author}</h3>"; //здесь нужно писать логин юзера написавшего комментарий
+                        echo "<p class='comments-content'>{$comment_row['content']}</p>";
+                        echo "<p class='comments-data'>{$comment_row['created_at']}</p>";
+                        echo "</div></div>";
+                    }
+                } else {
+                    echo "<p class='comment-no'>Комментариев пока нет.</p>";
+                }
                 echo "<button class='show-comment-form-button' data-post-id={$row['id']}>Оставить комментарий</button></div>";
-
             }
         } else {
             echo "<div>Постов пока нет.</div>";

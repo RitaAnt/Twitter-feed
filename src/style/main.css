@@ -57,6 +57,7 @@ a:hover{
     display: flex;
     justify-content: center; 
     align-items: center; 
+    margin-bottom: 0px;
 }
 #posts-div{
     width: 50%;
@@ -65,6 +66,7 @@ a:hover{
     align-items: flex-start;
     text-align: left;
     padding: 15px;
+    margin-bottom: 0px;
 }
 #posts-data{
     font-size: 14px;
@@ -124,4 +126,35 @@ a:hover{
 }
 .close:hover{
     cursor: pointer;
+}
+.comments-div{
+    margin: 5px;
+    width: 100%;
+    border: 0.1px solid rgba(128, 128, 128, 0.425);
+    align-items: flex-start;
+    text-align: left;
+    padding: 5px;
+}
+.comments{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    margin: 0;
+    padding: 0;
+}
+.comments-data{
+    font-size: 10px;
+    color: grey;
+    margin-top: 10px;
+}
+.comments-author{
+    font-size: 18px;
+}
+.comments-content{
+    font-size: 15px;
+}
+.comment-no{
+    color: grey;
+    font-size: 16px;
+    padding: 5px;
 }
