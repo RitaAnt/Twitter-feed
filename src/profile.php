@@ -37,7 +37,7 @@ if(isset($_SESSION['user_id'])) {
             echo "<p id='posts-data'>{$post['created_at']}</p>";
             echo "<div id='like-button'><p id='posts-likes'>{$post['likes']}</p>";
             echo "<button class='posts-like-button' data-post-id='{$post['id']}'>♥</button>";
-            echo "<button class='posts-edit-button'>Изменить</button>";
+            echo "<button class='posts-edit-button' data-post-id='{$post['id']}'>Изменить</button>";
             echo "<button class='posts-delete-button' data-post-id='{$post['id']}'>Удалить</button></p>";
             echo "</div></div></div>";
 
@@ -50,6 +50,19 @@ if(isset($_SESSION['user_id'])) {
     header('Location: index.php');
 }
 ?>
+
+<div id="edit-post-form" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Редактировать пост</h2>
+        <form id="edit-form" action="edit_post.php" method="post">
+            <textarea name="edited-content" id="edited-content" placeholder="Введите отредактированный пост" required></textarea>
+            <input type="hidden" name="post-id" id="edit-post-id" value="">
+            <button type="submit">Сохранить изменения</button>
+        </form>
+    </div>
+</div>
+
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -77,6 +90,40 @@ $(document).ready(function(){
                 }
             });
         }
+    });
+});
+$(document).ready(function(){
+    $(".posts-edit-button").click(function(){
+        var postId = $(this).attr("data-post-id"); 
+        console.log("Post ID:", postId); // Отладочная информация
+        var postContent = $(this).closest("#posts-div").find("#posts-content").text(); 
+        $("#edit-post-id").val(postId); 
+        $("#edited-content").val(postContent); 
+        $("#edit-post-form").show(); 
+    });
+
+    $("#edit-form").submit(function(e){
+        e.preventDefault();
+        var formData = $(this).serialize(); 
+        $.post("posts/edit_post.php", formData, function(data, status){
+            console.log("Response data:", data); // Отладочная информация
+            if (data === "success") {
+                // Обновление содержимого поста на странице
+                var postId = $("#edit-post-id").val();
+                var editedContent = $("#edited-content").val();
+                console.log("Post ID:", postId); // Отладочная информация
+                console.log("Edited content:", editedContent); // Отладочная информация
+                var postContentElement = $("#posts-content[data-post-id='" + postId + "']");
+                console.log("Post content element:", postContentElement); // Отладочная информация
+                postContentElement.text(editedContent);
+                
+                // Скрыть модальное окно
+                $("#edit-post-form").hide();
+                alert("Пост успешно изменен");
+            } else {
+                alert(data);
+            }
+        });
     });
 });
 

@@ -22,7 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         echo "Идентификатор поста не указан.";
-        print_r($_POST);
     }
 } else {
     echo "Неверный метод запроса.";
