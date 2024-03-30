@@ -10,23 +10,42 @@
     <h1>Лента постов пользователей</h1>
     
     <?php
-    require_once('../includes/db.php'); 
+        require_once('../includes/db.php'); 
 
-    $sql = "SELECT * FROM posts";
-    $result = $conn->query($sql);
+        $sql = "SELECT posts.*, users.login AS user_login FROM posts INNER JOIN users ON posts.user_id = users.id";
+        $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            echo "<div class='post'>";
-            echo "<h3>{$row['title']}</h3>";
-            echo "<h4>{$row['content']}</h4>";
-            echo "<p>{$row['likes']}</p>";
-            echo "</div>";
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "<div id='posts'>";
+                echo "<div id='posts-div'>";
+                echo "<h3 id='posts-author'>Автор: {$row['user_login']}</h3>";
+                echo "<p id='posts-content'>{$row['content']}</p>";
+                echo "<p id='posts-data'>{$row['created_at']}</p>";
+                echo "<p id='posts-likes'>{$row['likes']}<button id='posts-like-button' data-post-id='{$row['id']}'>♥</button></p>";
+                echo "</div></div>";
+            }
+        } else {
+            echo "Постов пока нет.";
         }
-    } else {
-        echo "Постов пока нет.";
-    }
+
     ?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    $("#posts-like-button").click(function(){
+        var postId = $(this).data("post-id"); 
+        var likesCountElement = $(this).closest('#posts-div').find('#posts-likes');
+        $.post("../likes_comments/like.php", {postId: postId}, function(data, status){
+           
+            likesCountElement = data[1];
+            alert("Данные: " + data + "\nСтатус: " + status);
+        });
+    });
+});
+
+</script>
 
 </body>
 </html>

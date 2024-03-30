@@ -61,12 +61,12 @@ button:hover{
 #posts-author, #posts-content, #posts-data{
     margin-bottom: 10px;
 }
-.posts-like-button{
+#posts-like-button{
     
     padding: 0 5px;
     margin: 0 15px;
     border: 0.2px solid grey;
 }
-.posts-like-button:hover{
+#posts-like-button:hover{
     box-shadow: 1px 1px 3px grey;
 }

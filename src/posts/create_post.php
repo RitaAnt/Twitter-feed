@@ -10,8 +10,6 @@
     <div>
     <h1>Создание нового поста</h1>
         <form action="process_create_post.php" method="post">
-            <label for="title">Заголовок:</label><br>
-            <input type="text" id="title" name="title" required><br>
 
             <label for="content">Содержание:</label><br>
             <textarea id="content" name="content" rows="8" cols="50" required></textarea><br>
