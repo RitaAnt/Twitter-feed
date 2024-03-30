@@ -11,7 +11,7 @@ session_start();
     <link rel="stylesheet" href="style/main.css">
 </head>
 <body>
-
+<?php include_once("includes/navbar.php"); ?>
 <?php
 if(isset($_SESSION['user_id'])) {
 
@@ -42,11 +42,10 @@ if(isset($_SESSION['user_id'])) {
     } else {
         echo "<p>У вас нет постов.</p>";
     }
-    echo "<a href='posts/create_post.php'>Создать пост</a>";
+    
 } else {
     header('Location: index.php');
 }
 ?>
-<a href='posts/all_posts.php'>Лента</a>
 </body>
 </html>

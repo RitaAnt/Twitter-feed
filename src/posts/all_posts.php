@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../style/main.css">
 </head>
 <body>
+<?php include_once("../includes/navbar.php"); ?>
     <h1>Лента постов пользователей</h1>
     
     <?php

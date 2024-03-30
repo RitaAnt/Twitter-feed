@@ -29,6 +29,7 @@ input, button, a, form, div, h1, h2, textarea{
     color: black;
     background: white;
     text-align: center;
+    text-decoration: none;
 }
 input, button, a, form, div, textarea{
 font-size: 18px;
@@ -40,6 +41,9 @@ button:hover{
 .message{
     color: rgb(250, 110, 67);
     text-align: center;
+}
+a:hover{
+    text-decoration:underline;
 }
 #posts{
     display: flex;
@@ -69,4 +73,14 @@ button:hover{
 }
 #posts-like-button:hover{
     box-shadow: 1px 1px 3px grey;
+}
+#nav-div{
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+}
+#nav-div a{
+    margin: 5px;
+    font-size: 18px;
 }

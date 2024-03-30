@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../style/main.css">
 </head>
 <body>
+<?php include_once("../includes/navbar.php"); ?>
     <div>
     <h1>Создание нового поста</h1>
         <form action="process_create_post.php" method="post">
