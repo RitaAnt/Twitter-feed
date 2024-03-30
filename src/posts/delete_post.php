@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $sql_delete_post = "DELETE FROM posts WHERE id = $post_id";
 
             if ($conn->query($sql_delete_post) === TRUE) {
-                echo "Пост и связанные с ним комментарии успешно удалены.";
+                echo "success";
             } else {
                 echo "Ошибка при удалении поста: " . $conn->error;
             }

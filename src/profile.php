@@ -67,13 +67,19 @@ $(document).ready(function(){
 $(document).ready(function(){
     $(".posts-delete-button").click(function(){
         var postId = $(this).data("post-id"); 
+        var postElement = $(this).closest("#posts"); 
         if(confirm("Вы уверены, что хотите удалить этот пост?")) {
             $.post("posts/delete_post.php", {postId: postId}, function(data, status){
-                alert(data); 
+                if (data === "success") {
+                    postElement.hide(); 
+                } else {
+                    alert("Ошибка при удалении поста.");
+                }
             });
         }
     });
 });
+
 
 </script>
 </body>
