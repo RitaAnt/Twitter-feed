@@ -59,10 +59,8 @@ $(document).ready(function(){
     $("#posts-like-button").click(function(){
         var postId = $(this).data("post-id"); 
         var likesCountElement = $(this).closest('#posts-div').find('#posts-likes');
-        console.log(likesCountElement);
         $.post("likes_comments/like.php", {postId: postId}, function(data, status){
             likesCountElement.text(data);
-            console.log(likesCountElement);
         });
     });
 });

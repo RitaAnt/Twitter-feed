@@ -16,7 +16,7 @@ session_start();
         <form action="process_create_post.php" method="post">
 
             <label for="content">Содержание:</label>
-            <textarea id="content" name="content" rows="8" cols="50" required></textarea><br>
+            <textarea class="content" name="content" rows="8" cols="50" required></textarea><br>
             <button type="submit">Создать пост</button>
         </form>
         </div>

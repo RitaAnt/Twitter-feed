@@ -40,7 +40,6 @@
 $(document).ready(function(){
     $(".posts-like-button").click(function(){
         var postId = $(this).data("post-id"); 
-        console.log(postId);
         var likesCountElement = $(this).closest('#posts-div').find('#posts-likes');
         $.post("../likes_comments/like.php", {postId: postId}, function(data, status){
             likesCountElement.text(data);
