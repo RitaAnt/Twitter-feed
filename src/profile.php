@@ -28,7 +28,7 @@ if(isset($_SESSION['user_id'])) {
     $sql_posts = "SELECT * from posts where user_id = $user_id";
     $result_posts = $conn->query($sql_posts);
     if($result_posts->num_rows > 0) {
-        echo "<h2>Ваши посты:</h2>";
+        echo "<h2>Редактирование постов</h2>";
         while($post = $result_posts->fetch_assoc()) {
             echo "<div id='posts'>";
             echo "<div id='posts-div'>";
@@ -36,9 +36,9 @@ if(isset($_SESSION['user_id'])) {
             echo "<p id='posts-content'>{$post['content']}</p>";
             echo "<p id='posts-data'>{$post['created_at']}</p>";
             echo "<div id='like-button'><p id='posts-likes'>{$post['likes']}</p>";
-            echo "<button id='posts-like-button' data-post-id='{$post['id']}'>♥</button>";
-            //<!--<button id='posts-edit-button'>Изменить</button>
-            //<button id='posts-delete-button'>Удалить</button></p>-->";
+            echo "<button class='posts-like-button' data-post-id='{$post['id']}'>♥</button>";
+            echo "<button class='posts-edit-button'>Изменить</button>";
+            echo "<button class='posts-delete-button' data-post-id='{$post['id']}'>Удалить</button></p>";
             echo "</div></div></div>";
 
         }
@@ -56,7 +56,7 @@ if(isset($_SESSION['user_id'])) {
 
 <script>
 $(document).ready(function(){
-    $("#posts-like-button").click(function(){
+    $(".posts-like-button").click(function(){
         var postId = $(this).data("post-id"); 
         var likesCountElement = $(this).closest('#posts-div').find('#posts-likes');
         $.post("likes_comments/like.php", {postId: postId}, function(data, status){
@@ -64,6 +64,17 @@ $(document).ready(function(){
         });
     });
 });
+$(document).ready(function(){
+    $(".posts-delete-button").click(function(){
+        var postId = $(this).data("post-id"); 
+        if(confirm("Вы уверены, что хотите удалить этот пост?")) {
+            $.post("posts/delete_post.php", {postId: postId}, function(data, status){
+                alert(data); 
+            });
+        }
+    });
+});
+
 </script>
 </body>
 </html>

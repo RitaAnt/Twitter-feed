@@ -76,15 +76,18 @@ a:hover{
 #posts-author, #posts-content, #posts-data{
     margin-bottom: 10px;
 }
-.posts-like-button, #posts-edit-button, #posts-delete-button{
-    margin: 0 15px;
+.posts-like-button, .posts-edit-button, .posts-delete-button{
     border: 0.2px solid grey;
+    margin: 0 15px;
 }
-#posts-edit-button, #posts-delete-button{
-    font-size: 15px;
-    padding: 5px 10x;
+.posts-like-button{
+    padding: 0 7px;
 }
-.posts-like-button:hover{
+.posts-edit-button, .posts-delete-button{
+    font-size: 14px;
+    padding: 3px 8px;
+}
+.posts-like-button:hover, .posts-edit-button:hover, .posts-delete-button:hover{
     box-shadow: 1px 1px 3px grey;
 }
 .nav-div{
