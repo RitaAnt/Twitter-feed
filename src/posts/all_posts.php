@@ -49,7 +49,7 @@ session_start();
         $offset = ($current_page - 1) * $posts_per_page;
 
         $sql = "SELECT posts.*, users.login AS user_login,
-                IF(follower_id IS NULL, 'Подписаться', 'Вы подписаны') AS subscription_status
+                IF(follow.follower_id IS NULL, 'Подписаться', 'Отписаться') AS subscription_status
                 FROM posts 
                 INNER JOIN users ON posts.user_id = users.id 
                 LEFT JOIN follow ON follow.following_id = posts.user_id AND follow.follower_id = ?
@@ -72,7 +72,7 @@ session_start();
                 echo "<div id='posts'>";
                 echo "<div id='posts-div'>";
                 echo "<h3 id='posts-author'>Автор: {$row['user_login']}</h3>";
-                if ($row['subscription_status'] === 'Вы подписаны') {
+                if ($row['subscription_status'] === 'Отписаться') {
                     echo "<button class='subscribe-button' data-user-id='{$row['user_id']}' disabled>{$row['subscription_status']}</button>";
                 } else {
                     echo "<button class='subscribe-button' data-user-id='{$row['user_id']}'>{$row['subscription_status']}</button>";
@@ -191,7 +191,7 @@ session_start();
                 var buttonText = $(this).text();
                 if (buttonText === 'Подписаться') {
                     $.post("../follow/subscribe.php", {userId: userId}, function(data, status){
-                        $(".subscribe-button[data-user-id='" + userId + "']").text('Вы подписаны').prop('disabled', true);
+                        $(".subscribe-button[data-user-id='" + userId + "']").text('Отписаться').prop('disabled', true);
                     });
                 } else {
                     $.post("../follow/unsubscribe.php", {userId: userId}, function(data, status){
