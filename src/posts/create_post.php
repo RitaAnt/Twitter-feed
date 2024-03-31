@@ -19,12 +19,15 @@ session_start();
             <textarea class="content" name="content" rows="8" cols="50" required></textarea><br>
             <button type="submit">Создать пост</button>
         </form>
-        </div>
-        <h3 class="message">
-            <?php
-                echo $_SESSION['message']; 
-                unset($_SESSION['message']);
-            ?>
+    </div>
+
+    <!-- Сообщение о том, что превышено количество символов -->
+    <h3 class="message">
+        <?php
+            echo $_SESSION['message']; 
+            unset($_SESSION['message']);
+        ?>
     </h3>
+
 </body>
 </html>

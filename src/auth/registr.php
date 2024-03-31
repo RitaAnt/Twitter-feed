@@ -28,6 +28,13 @@ session_start();
         <button type="submit">Зарегистрироваться</button>
     </form>
 
+
+    <div>
+        <p>Уже есть аккаунт?</p>
+        <a href="../index.php">Войти</a>
+    </div>
+
+    <!-- Показывает ошибку в случае проблемы с регистрацией -->
     <h3 class="message">
         <?php
         echo $_SESSION['message']; 

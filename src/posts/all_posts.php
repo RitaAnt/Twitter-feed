@@ -7,33 +7,36 @@
     <link rel="stylesheet" href="../style/main.css">
 </head>
 <body>
-<?php include_once("../includes/navbar.php"); ?>
-    <h1>Лента постов пользователей</h1>
-    <div class="pagination">
-    <?php require_once('../includes/db.php'); 
-    $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
-    $total_posts_sql = "SELECT COUNT(*) AS total_posts FROM posts";
-    $total_posts_result = $conn->query($total_posts_sql);
-    $total_posts_row = $total_posts_result->fetch_assoc();
-    $total_posts = $total_posts_row['total_posts'];
-    $posts_per_page = 3; 
-    $total_pages = ceil($total_posts / $posts_per_page);
-    ?>
+    <?php include_once("../includes/navbar.php"); ?>
+        <h1>Лента постов пользователей</h1>
 
-    
-    <?php if ($current_page > 1): ?>
-        <a href="?page=<?php echo ($current_page - 1); ?>">Предыдущая</a>
-    <?php endif; ?>
-    
-    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-        <a href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-    <?php endfor; ?>
+        <!-- Пагинация -->
+        <div class="pagination">
+        <?php require_once('../includes/db.php'); 
+        $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $total_posts_sql = "SELECT COUNT(*) AS total_posts FROM posts";
+        $total_posts_result = $conn->query($total_posts_sql);
+        $total_posts_row = $total_posts_result->fetch_assoc();
+        $total_posts = $total_posts_row['total_posts'];
+        $posts_per_page = 3; 
+        $total_pages = ceil($total_posts / $posts_per_page);
+        ?>
 
-    <?php if ($current_page < $total_pages): ?>
-        <a href="?page=<?php echo ($current_page + 1); ?>">Следующая</a>
-    <?php endif; ?>
-</div>
+        
+        <?php if ($current_page > 1): ?>
+            <a href="?page=<?php echo ($current_page - 1); ?>">Предыдущая</a>
+        <?php endif; ?>
+        
+        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+            <a href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+        <?php endfor; ?>
 
+        <?php if ($current_page < $total_pages): ?>
+            <a href="?page=<?php echo ($current_page + 1); ?>">Следующая</a>
+        <?php endif; ?>
+    </div>
+
+<!-- Выводит нужные посты (3 на страницу) -->
     <?php
         require_once('../includes/db.php'); 
 
@@ -61,23 +64,20 @@
                 echo "<button class='posts-like-button' data-post-id='{$row['id']}'>♥</button>";
                 echo "</div></div>";
                 
+                // Выводит комментарии к постам
                 $post_id = $row['id'];
-                $comments_sql = "SELECT 
-                comments.*, 
+                $comments_sql = 
+                "SELECT comments.*, 
                 users.login AS comment_author
-            FROM 
-                comments 
-            LEFT JOIN 
-                users ON comments.user_id = users.id
-            WHERE 
-                comments.post_id = $post_id
-            ORDER BY 
-                comments.created_at ASC;
-            
-            ";
+                FROM comments 
+                LEFT JOIN 
+                    users ON comments.user_id = users.id
+                WHERE 
+                    comments.post_id = $post_id
+                ORDER BY 
+                    comments.created_at ASC;";
                 $comments_result = $conn->query($comments_sql);
         
-                
                 if ($comments_result->num_rows > 0) {
                     while($comment_row = $comments_result->fetch_assoc()) {
                         $comment_user_id = $comment_row['user_id'];
@@ -102,49 +102,71 @@
         }
 
     ?>
-<div class="comment-modal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Оставить комментарий</h2>
-    <form id="comment-form" action="../likes_comments/comment.php" method="post">
-      <textarea name="comment" id="comment" rows="8" cols="50" placeholder="Введите ваш комментарий" required></textarea>
-      <input type="hidden" name="post_id" id="post-id">
-      <button type="submit">Отправить</button>
-    </form>
-  </div>
-</div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Модальное окно, появляющееся при нажатии на кнопку "Оставить комментарий" -->
+    <div class="comment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Оставить комментарий</h2>
+            <form id="comment-form" action="../likes_comments/comment.php" method="post">
+            <textarea name="comment" id="comment" rows="8" cols="50" placeholder="Введите ваш комментарий" required></textarea>
+            <input type="hidden" name="post_id" id="post-id">
+            <button type="submit">Отправить</button>
+            </form>
+        </div>
+    </div>
 
-<script>
-$(document).ready(function(){
-    $(".posts-like-button").click(function(){
-        var postId = $(this).data("post-id"); 
-        var likesCountElement = $(this).closest('#posts-div').find('#posts-likes');
-        $.post("../likes_comments/like.php", {postId: postId}, function(data, status){
-            likesCountElement.text(data);
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        // Скрипт для лайка, автоматически обновляющий данные при нажатии
+        // При существовании лайка от данного юзера на данном посте, лайк снимается
+        $(document).ready(function(){
+            $(".posts-like-button").click(function(){
+                var postId = $(this).data("post-id"); 
+                var likesCountElement = $(this).closest('#posts-div').find('#posts-likes');
+                $.post("../likes_comments/like.php", {postId: postId}, function(data, status){
+                    likesCountElement.text(data);
+                });
+            });
         });
-    });
-});
-$(document).ready(function(){
-  $(".show-comment-form-button").click(function(){
-    var postId = $(this).data("post-id"); 
-    $("#post-id").val(postId);
-    $(".comment-modal").show();
-  });
 
-  $(".close").click(function(){
-    $(".comment-modal").hide();
-  });
+        // Скрипт комментария, автоматически обновляющий данные при отправке
+        $(document).ready(function(){
+            $("#comment-form").submit(function(event){
+                event.preventDefault();
+                var formData = $(this).serialize();
 
-  $(window).click(function(event) {
-    if (event.target == $(".comment-modal")[0]) {
-      $(".comment-modal").hide();
-    }
-  });
-});
+                $.post("../likes_comments/comment.php", formData, function(data, status){
+                    if(status === "success") {
+                        $(".comment-modal").hide();
+                        location.reload();
+                    }
+                });
+            });
 
-</script>
+            // Показывает модальное окно
+            $(".show-comment-form-button").click(function(){
+                var postId = $(this).data("post-id"); 
+                $("#post-id").val(postId);
+                $(".comment-modal").show();
+            });
+
+            // Прячет модальное окно при нажатии на "х"
+            $(".close").click(function(){
+                $(".comment-modal").hide();
+            });
+
+            // Прячет модальное окно при натажии на фон
+            $(window).click(function(event) {
+                if (event.target == $(".comment-modal")[0]) {
+                    $(".comment-modal").hide();
+                }
+            });
+        });
+
+
+    </script>
 
 </body>
 </html>
