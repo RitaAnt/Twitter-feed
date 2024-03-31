@@ -9,12 +9,46 @@
 <body>
 <?php include_once("../includes/navbar.php"); ?>
     <h1>Лента постов пользователей</h1>
+    <div class="pagination">
+    <?php require_once('../includes/db.php'); 
+    $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+    $total_posts_sql = "SELECT COUNT(*) AS total_posts FROM posts";
+    $total_posts_result = $conn->query($total_posts_sql);
+    $total_posts_row = $total_posts_result->fetch_assoc();
+    $total_posts = $total_posts_row['total_posts'];
+    $posts_per_page = 3; 
+    $total_pages = ceil($total_posts / $posts_per_page);
+    ?>
+
     
+    <?php if ($current_page > 1): ?>
+        <a href="?page=<?php echo ($current_page - 1); ?>">Предыдущая</a>
+    <?php endif; ?>
+    
+    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+        <a href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+    <?php endfor; ?>
+
+    <?php if ($current_page < $total_pages): ?>
+        <a href="?page=<?php echo ($current_page + 1); ?>">Следующая</a>
+    <?php endif; ?>
+</div>
+
     <?php
         require_once('../includes/db.php'); 
 
-        $sql = "SELECT posts.*, users.login AS user_login FROM posts INNER JOIN users ON posts.user_id = users.id ORDER BY posts.created_at DESC";
+        $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $posts_per_page = 3;
+        $offset = ($current_page - 1) * $posts_per_page;
+
+        $sql = "SELECT posts.*, users.login AS user_login 
+                FROM posts 
+                INNER JOIN users ON posts.user_id = users.id 
+                ORDER BY posts.created_at DESC 
+                LIMIT $offset, $posts_per_page";
+
         $result = $conn->query($sql);
+
 
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
@@ -28,7 +62,19 @@
                 echo "</div></div>";
                 
                 $post_id = $row['id'];
-                $comments_sql = "SELECT * FROM comments WHERE post_id = $post_id";
+                $comments_sql = "SELECT 
+                comments.*, 
+                users.login AS comment_author
+            FROM 
+                comments 
+            LEFT JOIN 
+                users ON comments.user_id = users.id
+            WHERE 
+                comments.post_id = $post_id
+            ORDER BY 
+                comments.created_at ASC;
+            
+            ";
                 $comments_result = $conn->query($comments_sql);
         
                 
@@ -41,7 +87,7 @@
                         $comment_author = $comment_user_data['login'];
                         echo "<div class='comments'>";
                         echo "<div class='comments-div'>";
-                        echo "<h3 class='comments-author'>{$comment_author}</h3>"; //здесь нужно писать логин юзера написавшего комментарий
+                        echo "<h3 class='comments-author'>{$comment_author}</h3>"; 
                         echo "<p class='comments-content'>{$comment_row['content']}</p>";
                         echo "<p class='comments-data'>{$comment_row['created_at']}</p>";
                         echo "</div></div>";
@@ -61,7 +107,7 @@
     <span class="close">&times;</span>
     <h2>Оставить комментарий</h2>
     <form id="comment-form" action="../likes_comments/comment.php" method="post">
-      <textarea name="comment" id="comment" placeholder="Введите ваш комментарий" required></textarea>
+      <textarea name="comment" id="comment" rows="8" cols="50" placeholder="Введите ваш комментарий" required></textarea>
       <input type="hidden" name="post_id" id="post-id">
       <button type="submit">Отправить</button>
     </form>
