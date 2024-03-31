@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,20 +48,35 @@
         $posts_per_page = 3;
         $offset = ($current_page - 1) * $posts_per_page;
 
-        $sql = "SELECT posts.*, users.login AS user_login 
+        $sql = "SELECT posts.*, users.login AS user_login,
+                IF(follower_id IS NULL, 'Подписаться', 'Вы подписаны') AS subscription_status
                 FROM posts 
                 INNER JOIN users ON posts.user_id = users.id 
+                LEFT JOIN follow ON follow.following_id = posts.user_id AND follow.follower_id = ?
                 ORDER BY posts.created_at DESC 
                 LIMIT $offset, $posts_per_page";
+            
+            $stmt = $conn->prepare($sql);
+            if (!$stmt) {
+                die("Ошибка подготовки запроса: " . $conn->error);
+            }
 
-        $result = $conn->query($sql);
-
+            $user_id = $_SESSION['user_id'];
+            $stmt->bind_param("i", $userId); // "i" указывает, что тип параметра - integer
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
 
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
                 echo "<div id='posts'>";
                 echo "<div id='posts-div'>";
                 echo "<h3 id='posts-author'>Автор: {$row['user_login']}</h3>";
+                if ($row['subscription_status'] === 'Вы подписаны') {
+                    echo "<button class='subscribe-button' data-user-id='{$row['user_id']}' disabled>{$row['subscription_status']}</button>";
+                } else {
+                    echo "<button class='subscribe-button' data-user-id='{$row['user_id']}'>{$row['subscription_status']}</button>";
+                }
                 echo "<p class='posts-content'>{$row['content']}</p>";
                 echo "<p id='posts-data'>{$row['created_at']}</p>";
                 echo "<div id='like-button'><p id='posts-likes'>{$row['likes']}</p>";
@@ -165,6 +184,22 @@
             });
         });
 
+        // Скрипт для подписки
+        $(document).ready(function(){
+            $(".subscribe-button").click(function(){
+                var userId = $(this).data("user-id");
+                var buttonText = $(this).text();
+                if (buttonText === 'Подписаться') {
+                    $.post("../follow/subscribe.php", {userId: userId}, function(data, status){
+                        $(".subscribe-button[data-user-id='" + userId + "']").text('Вы подписаны').prop('disabled', true);
+                    });
+                } else {
+                    $.post("../follow/unsubscribe.php", {userId: userId}, function(data, status){
+                        $(".subscribe-button[data-user-id='" + userId + "']").text('Подписаться').prop('disabled', false);
+                    });
+                }
+            });
+        });
 
     </script>
 
