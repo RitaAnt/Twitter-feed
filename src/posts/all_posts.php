@@ -71,13 +71,14 @@ session_start();
             while($row = $result->fetch_assoc()) {
                 echo "<div id='posts'>";
                 echo "<div id='posts-div'>";
-                echo "<h3 id='posts-author'>Автор: {$row['user_login']}</h3>";
+                echo "<div class='posts-author-subscription'><h3 id='posts-author'>Автор: {$row['user_login']}</h3>";
+                // подписка/отписка
                 if ($row['subscription_status'] === 'Отписаться') {
                     echo "<button class='subscribe-button' data-user-id='{$row['user_id']}' disabled>{$row['subscription_status']}</button>";
                 } else {
                     echo "<button class='subscribe-button' data-user-id='{$row['user_id']}'>{$row['subscription_status']}</button>";
                 }
-                echo "<p class='posts-content'>{$row['content']}</p>";
+                echo "</div><p class='posts-content'>{$row['content']}</p>";
                 echo "<p id='posts-data'>{$row['created_at']}</p>";
                 echo "<div id='like-button'><p id='posts-likes'>{$row['likes']}</p>";
                 echo "<button class='posts-like-button' data-post-id='{$row['id']}'>♥</button>";

@@ -73,21 +73,21 @@ a:hover{
     color: grey;
     margin-top: 10px;
 }
-#posts-author, .posts-content, #posts-data{
+.posts-content, #posts-data{
     margin-bottom: 10px;
 }
-.posts-like-button, .posts-edit-button, .posts-delete-button{
+.posts-like-button, .posts-edit-button, .posts-delete-button, .subscribe-button{
     border: 0.2px solid grey;
     margin: 0 15px;
 }
 .posts-like-button{
     padding: 0 7px;
 }
-.posts-edit-button, .posts-delete-button{
+.posts-edit-button, .posts-delete-button, .subscribe-button{
     font-size: 14px;
     padding: 3px 8px;
 }
-.posts-like-button:hover, .posts-edit-button:hover, .posts-delete-button:hover{
+.posts-like-button:hover, .posts-edit-button:hover, .posts-delete-button:hover, .subscribe-button:hover{
     box-shadow: 1px 1px 3px grey;
 }
 .nav-div{
@@ -146,6 +146,8 @@ a:hover{
     align-items: center; 
     margin: 0;
     padding: 0;
+    width: 50%;
+    max-width: 500px;
 }
 .comments-data{
     font-size: 10px;
@@ -167,4 +169,12 @@ a:hover{
     display: flex;
     flex-direction: row;
     justify-content: center;
+}
+.posts-author-subscription{
+    margin: 0 0 10px 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
 }
