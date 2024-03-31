@@ -55,7 +55,6 @@ if(isset($_SESSION['user_id'])) {
 ?>
 
     <!-- Модальное окно, появляющееся при нажатии на кнопку "Изменить". -->
-    <!-- НЕ ПЕРЕЗАГРУЖАЕТ СТРАНИЦУ, ТРЕБУЕТ ДОРАБОТКИ -->
     <div id="edit-post-form" class="comment-modal" style="display: none;">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -102,7 +101,7 @@ if(isset($_SESSION['user_id'])) {
             });
         });
 
-        // Скрипт для 
+        // Скрипт для изменения поста, автоматически обновляющий пост при изменении
         $(document).ready(function(){
             $(".posts-edit-button").click(function(){
                 var postId = $(this).attr("data-post-id"); 
