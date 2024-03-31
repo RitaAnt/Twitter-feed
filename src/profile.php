@@ -56,7 +56,7 @@ if(isset($_SESSION['user_id'])) {
         <span class="close">&times;</span>
         <h2>Редактировать пост</h2>
         <form id="edit-form" action="edit_post.php" method="post">
-            <textarea name="edited-content" id="edited-content" placeholder="Введите отредактированный пост" required></textarea>
+            <textarea name="edited-content" id="edited-content" rows="8" cols="50" placeholder="Введите отредактированный пост" required></textarea>
             <input type="hidden" name="post-id" id="edit-post-id" value="">
             <button type="submit">Сохранить изменения</button>
         </form>
@@ -86,7 +86,7 @@ $(document).ready(function(){
                 if (data === "success") {
                     postElement.hide(); 
                 } else {
-                    alert("Ошибка при удалении поста.");
+                    alert("Ошибка при удалении поста." + data);
                 }
             });
         }

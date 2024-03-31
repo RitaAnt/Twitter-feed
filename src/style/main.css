@@ -125,8 +125,8 @@ a:hover{
 .modal-content {
     background-color: #fff;
     padding: 20px;
-    width: 80%;
-    max-width: 600px;
+    width: 100%;
+    max-width: 800px;
     margin: 100px auto; 
 }
 .close:hover{
