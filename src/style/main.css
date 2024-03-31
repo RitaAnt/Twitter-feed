@@ -163,3 +163,8 @@ a:hover{
     font-size: 16px;
     padding: 5px;
 }
+.pagination{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
