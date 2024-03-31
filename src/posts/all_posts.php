@@ -56,28 +56,30 @@ session_start();
                 ORDER BY posts.created_at DESC 
                 LIMIT $offset, $posts_per_page";
             
-            $stmt = $conn->prepare($sql);
-            if (!$stmt) {
-                die("Ошибка подготовки запроса: " . $conn->error);
-            }
+        $stmt = $conn->prepare($sql);
+        if (!$stmt) {
+            die("Ошибка подготовки запроса: " . $conn->error);
+        }
 
-            $user_id = $_SESSION['user_id'];
-            $stmt->bind_param("i", $userId); // "i" указывает, что тип параметра - integer
-            $stmt->execute();
-            $result = $stmt->get_result();
-            
+        $user_id = $_SESSION['user_id'];
+        $stmt->bind_param("i", $userId); // "i" указывает, что тип параметра - integer
+        $stmt->execute();
+        $result = $stmt->get_result();
+
 
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
                 echo "<div id='posts'>";
                 echo "<div id='posts-div'>";
                 echo "<div class='posts-author-subscription'><h3 id='posts-author'>Автор: {$row['user_login']}</h3>";
+
                 // подписка/отписка
-                if ($row['subscription_status'] === 'Отписаться') {
+                if ($row['subscription_status'] === 'Отписаться' && $row['user_id'] != $user_id) {
                     echo "<button class='subscribe-button' data-user-id='{$row['user_id']}' disabled>{$row['subscription_status']}</button>";
-                } else {
+                } else if ($row['subscription_status'] === 'Подписаться' && $row['user_id'] != $user_id) {
                     echo "<button class='subscribe-button' data-user-id='{$row['user_id']}'>{$row['subscription_status']}</button>";
                 }
+
                 echo "</div><p class='posts-content'>{$row['content']}</p>";
                 echo "<p id='posts-data'>{$row['created_at']}</p>";
                 echo "<div id='like-button'><p id='posts-likes'>{$row['likes']}</p>";
