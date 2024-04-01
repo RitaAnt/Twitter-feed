@@ -67,6 +67,7 @@ a:hover{
     text-align: left;
     padding: 15px;
     margin-bottom: 0px;
+    display: inline-block;
 }
 #posts-data{
     font-size: 14px;
@@ -193,7 +194,7 @@ a:hover{
     flex-direction: row;
     justify-content: center;
 }
-.comments-content {
+.comments-content, .posts-content{
     word-wrap: break-word;
     overflow-wrap: break-word;
 }

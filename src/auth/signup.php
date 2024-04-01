@@ -16,7 +16,7 @@ if ($pass != $repeatpass) {
     // Проверка на существование логина
     $check_login_sql = "SELECT * FROM `users` WHERE login = ?";
     $stmt_check_login = $conn->prepare($check_login_sql);
-    if (!$stmt_check_email) {
+    if (!$stmt_check_login) {
         die("Ошибка подготовки запроса: " . $conn->error);
     }
     $stmt_check_login->bind_param("s", $login);

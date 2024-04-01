@@ -71,7 +71,7 @@ session_start();
             while($row = $result->fetch_assoc()) {
                 echo "<div id='posts'>";
                 echo "<div id='posts-div'>";
-                echo "<div class='posts-author-subscription'><h3 id='posts-author'>Автор: {$row['user_login']}</h3>";
+                echo "<div class='posts-author-subscription'><h3 id='posts-author'>Автор: " . htmlspecialchars($row['user_login'], ENT_QUOTES, 'UTF-8') . "</h3>";
 
                 // подписка/отписка
                 if ($row['subscription_status'] === 'Отписаться' && $row['user_id'] != $user_id) {
@@ -80,7 +80,7 @@ session_start();
                     echo "<button class='subscribe-button' data-user-id='{$row['user_id']}'>{$row['subscription_status']}</button>";
                 }
 
-                echo "</div><p class='posts-content'>{$row['content']}</p>";
+                echo "</div><p class='posts-content'>" . htmlspecialchars($row['content'], ENT_QUOTES, 'UTF-8') . "</p>";
                 echo "<p id='posts-data'>{$row['created_at']}</p>";
                 echo "<div id='like-button'><p id='posts-likes'>{$row['likes']}</p>";
                 echo "<button class='posts-like-button' data-post-id='{$row['id']}'>♥</button>";
@@ -124,9 +124,9 @@ session_start();
                         $comment_author = $comment_user_data['login'];
                         echo "<div class='comments'>";
                         echo "<div class='comments-div'>";
-                        echo "<h3 class='comments-author'>{$comment_author}</h3>";
-                        echo "<p class='comments-content'>{$comment_row['content']}</p>";
-                        echo "<p class='comments-data'>{$comment_row['created_at']}</p>";
+                        echo "<h3 class='comments-author'>".htmlspecialchars($comment_author, ENT_QUOTES, 'UTF-8')."</h3>";
+                        echo "<p class='comments-content'>".htmlspecialchars($comment_row['content'], ENT_QUOTES, 'UTF-8')."</p>";
+                        echo "<p class='comments-data'>".htmlspecialchars($comment_row['created_at'], ENT_QUOTES, 'UTF-8')."</p>";
                         echo "</div></div>";
                     }
                 } else {

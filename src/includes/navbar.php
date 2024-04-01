@@ -9,7 +9,7 @@
     </div>
 
     <div>
-        <p><?php echo $_SESSION['login']; ?></p>
+        <p><?php echo htmlspecialchars($_SESSION['login'], ENT_QUOTES, 'UTF-8'); ?></p>
     </div>
 </div>
 <hr>
