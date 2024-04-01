@@ -19,6 +19,7 @@ if ($result->num_rows > 0) {
     
     if ($pass === $user['password']) {
         $_SESSION['user_id'] = $user['id'];
+        $_SESSION['login'] = $user['login'];
         header('Location: ../profile.php');
     } else {
         $_SESSION['message'] = "Пароль неправильный";

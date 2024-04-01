@@ -90,15 +90,18 @@ a:hover{
 .posts-like-button:hover, .posts-edit-button:hover, .posts-delete-button:hover, .subscribe-button:hover{
     box-shadow: 1px 1px 3px grey;
 }
-.nav-div{
+.nav-div, .nav-div-a{
     display: flex;
     flex-direction: row;
     padding: 0;
     margin: 0;
 }
-.nav-div a{
-    margin: 5px;
+.nav-div-a a{
+    margin: 0px;
     font-size: 18px;
+}
+.nav-div{
+    justify-content: space-between;
 }
 #like-button{
     display: flex;
