@@ -139,6 +139,7 @@ a:hover{
     align-items: flex-start;
     text-align: left;
     padding: 5px;
+    display: inline-block;
 }
 .comments{
     display: flex;
@@ -188,4 +189,8 @@ a:hover{
     display: flex;
     flex-direction: row;
     justify-content: center;
+}
+.comments-content {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }

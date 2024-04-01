@@ -5,8 +5,14 @@ require_once('../includes/db.php');
 $login = $_POST['login'];
 $pass = $_POST['pass'];
 
-$sql = "SELECT * FROM `users` WHERE login = '$login'";
-$result = $conn->query($sql);
+$sql = "SELECT * FROM `users` WHERE login = ?";
+$stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Ошибка подготовки запроса: " . $conn->error);
+}
+$stmt->bind_param("i", $login);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();

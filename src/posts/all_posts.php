@@ -95,21 +95,36 @@ session_start();
                 LEFT JOIN 
                     users ON comments.user_id = users.id
                 WHERE 
-                    comments.post_id = $post_id
+                    comments.post_id = ?
                 ORDER BY 
                     comments.created_at ASC;";
-                $comments_result = $conn->query($comments_sql);
+                $stmt_comments = $conn->prepare($comments_sql);
+                if (!$stmt_comments) {
+                    die("Ошибка подготовки запроса: " . $conn->error);
+                }
+                $stmt_comments->bind_param("i", $post_id);
+                $stmt_comments->execute();
+                $comments_result = $stmt_comments->get_result();
         
                 if ($comments_result->num_rows > 0) {
-                    while($comment_row = $comments_result->fetch_assoc()) {
+                    while ($comment_row = $comments_result->fetch_assoc()) {
                         $comment_user_id = $comment_row['user_id'];
-                        $comment_user_sql = "SELECT login FROM users WHERE id = $comment_user_id";
-                        $comment_user_result = $conn->query($comment_user_sql);
+                
+                        $comment_user_sql = "SELECT login FROM users WHERE id = ?";
+                        $stmt_comment_user = $conn->prepare($comment_user_sql);
+                        if (!$stmt_comment_user) {
+                            die("Ошибка подготовки запроса: " . $conn->error);
+                        }
+                        $stmt_comment_user->bind_param("i", $comment_user_id);
+                        $stmt_comment_user->execute();
+                
+                        $comment_user_result = $stmt_comment_user->get_result();
                         $comment_user_data = $comment_user_result->fetch_assoc();
+
                         $comment_author = $comment_user_data['login'];
                         echo "<div class='comments'>";
                         echo "<div class='comments-div'>";
-                        echo "<h3 class='comments-author'>{$comment_author}</h3>"; 
+                        echo "<h3 class='comments-author'>{$comment_author}</h3>";
                         echo "<p class='comments-content'>{$comment_row['content']}</p>";
                         echo "<p class='comments-data'>{$comment_row['created_at']}</p>";
                         echo "</div></div>";

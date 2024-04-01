@@ -8,9 +8,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $content = $_POST['comment'];
     $created_at = date('Y-m-d H:i:s');
 
-    $sql = "INSERT INTO comments (content, created_at, post_id, user_id) VALUES ('$content', '$created_at', '$post_id', '$user_id')";
-
-    if ($conn->query($sql) === TRUE) {
+    $sql = "INSERT INTO comments (content, created_at, post_id, user_id) VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die("Ошибка подготовки запроса: " . $conn->error);
+    }
+    $stmt->bind_param("ssii", $content, $created_at, $post_id, $user_id);
+    
+    
+    if ($stmt->execute()) {
         echo "Комментарий успешно добавлен!";
     } else {
         echo "Ошибка: " . $conn->error;

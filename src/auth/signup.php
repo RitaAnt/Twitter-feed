@@ -14,8 +14,14 @@ if ($pass != $repeatpass) {
     header('Location: registr.php');
 } else {
     // Проверка на существование логина
-    $check_login_sql = "SELECT * FROM `users` WHERE login = '$login'";
-    $check_login_result = $conn->query($check_login_sql);
+    $check_login_sql = "SELECT * FROM `users` WHERE login = ?";
+    $stmt_check_login = $conn->prepare($check_login_sql);
+    if (!$stmt_check_email) {
+        die("Ошибка подготовки запроса: " . $conn->error);
+    }
+    $stmt_check_login->bind_param("s", $login);
+    $stmt_check_login->execute();
+    $check_login_result = $stmt_check_login->get_result();
     if ($check_login_result->num_rows > 0) {
         session_start();
         $_SESSION['message'] = 'Данный логин занят!';
@@ -24,8 +30,14 @@ if ($pass != $repeatpass) {
     }
 
     // Проверка на существование почты
-    $check_email_sql = "SELECT * FROM `users` WHERE email = '$email'";
-    $check_email_result = $conn->query($check_email_sql);
+    $check_email_sql = "SELECT * FROM `users` WHERE email = ?";
+    $stmt_check_email = $conn->prepare($check_email_sql);
+    if (!$stmt_check_email) {
+        die("Ошибка подготовки запроса: " . $conn->error);
+    }
+    $stmt_check_email->bind_param("s", $email);
+    $stmt_check_email->execute();
+    $check_email_result = $stmt_check_email->get_result();
     if ($check_email_result->num_rows > 0) {
         session_start();
         $_SESSION['message'] = 'Данная почта занята!';
@@ -33,13 +45,20 @@ if ($pass != $repeatpass) {
         exit();
     }
 
+
     // Если логин и почта уникальны, создаем нового пользователя
-    $sql = "INSERT INTO `users` (login, password, email) VALUES ('$login', '$pass', '$email')";
-    if ($conn->query($sql)) {
+    $sql = "INSERT INTO `users` (login, password, email) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die("Ошибка подготовки запроса: " . $conn->error);
+    }
+    $stmt->bind_param("sss", $login, $pass, $email);
+    if ($stmt->execute()) {
         session_start();
         $_SESSION['message'] = 'Пользователь успешно создан!';
         header('Location: ../index.php');
     } else {
-        echo "Ошибка: " . $conn->error;
+        echo "Ошибка: " . $stmt->error;
     }
+
 }

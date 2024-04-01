@@ -21,15 +21,28 @@ if(isset($_SESSION['user_id'])) {
 
     //получаем нашего юзера и его данные
     $user_id = $_SESSION['user_id'];
-    $sql_user = "SELECT * FROM users WHERE id = $user_id";
-    $result_user = $conn->query($sql_user);
+    $sql_user = "SELECT * FROM users WHERE id = ?";
+    $stmt_user = $conn->prepare($sql_user);
+    if (!$stmt_user) {
+        die("Ошибка подготовки запроса: " . $conn->error);
+    }
+    $stmt_user->bind_param("i", $user_id);
+    $stmt_user->execute();
+    $result_user = $stmt_user->get_result();
     $user = $result_user->fetch_assoc();
+    
 
     echo "<h1>Добро пожаловать, {$user['login']}!</h1>";
 
     //ищем посты юзера и выводим их
-    $sql_posts = "SELECT * from posts where user_id = $user_id";
-    $result_posts = $conn->query($sql_posts);
+    $sql_posts = "SELECT * from posts where user_id = ?";
+    $stmt = $conn->prepare($sql_posts);
+    if (!$stmt) {
+        die("Ошибка подготовки запроса: " . $conn->error);
+    }
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result_posts = $stmt->get_result();
     if($result_posts->num_rows > 0) {
         echo "<h2>Редактирование постов</h2>";
         while($post = $result_posts->fetch_assoc()) {
