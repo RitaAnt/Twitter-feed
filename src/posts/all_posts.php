@@ -74,11 +74,7 @@ session_start();
                 echo "<div class='posts-author-subscription'><h3 id='posts-author'>Автор: " . htmlspecialchars($row['user_login'], ENT_QUOTES, 'UTF-8') . "</h3>";
 
                 // подписка/отписка
-                if ($row['subscription_status'] === 'Отписаться' && $row['user_id'] != $user_id) {
-                    echo "<button class='subscribe-button' data-user-id='{$row['user_id']}' disabled>{$row['subscription_status']}</button>";
-                } else if ($row['subscription_status'] === 'Подписаться' && $row['user_id'] != $user_id) {
-                    echo "<button class='subscribe-button' data-user-id='{$row['user_id']}'>{$row['subscription_status']}</button>";
-                }
+                echo "<button class='subscribe-button' data-user-id='{$row['user_id']}' >{$row['subscription_status']}</button>";
 
                 echo "</div><p class='posts-content'>" . htmlspecialchars($row['content'], ENT_QUOTES, 'UTF-8') . "</p>";
                 echo "<p id='posts-data'>{$row['created_at']}</p>";
