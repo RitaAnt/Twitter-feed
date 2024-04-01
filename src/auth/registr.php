@@ -12,7 +12,7 @@ session_start();
 </head>
 <body>
     <h1>Регистрация</h1>
-    <form action="signup.php" method="post">
+    <form class="registr-form" action="signup.php" method="post">
         <label>Логин:</label>
         <input type="text" placeholder="Введите логин" name="login" required>
 
@@ -29,7 +29,7 @@ session_start();
     </form>
 
 
-    <div>
+    <div class="registr-link">
         <p>Уже есть аккаунт?</p>
         <a href="../index.php">Войти</a>
     </div>
