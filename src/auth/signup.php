@@ -7,12 +7,15 @@ $repeatpass = $_POST['repeatpass'];
 $email = $_POST['email'];
 
 // Проверка на совпадение паролей
-// МОЖЕТ ДОБАВИТЬ ШИФРОВКУ ТИПО ЧТОБЫ В БД НЕ ХРАНИЛОСЬ В ОТКРЫТУЮ?
 if ($pass != $repeatpass) {
     session_start();
     $_SESSION['message'] = 'Пароли не совпадают!';
     header('Location: registr.php');
+    exit();
 } else {
+    // Хэширование пароля
+    $hashedPassword = password_hash($pass, PASSWORD_DEFAULT);
+
     // Проверка на существование логина
     $check_login_sql = "SELECT * FROM `users` WHERE login = ?";
     $stmt_check_login = $conn->prepare($check_login_sql);
@@ -45,14 +48,13 @@ if ($pass != $repeatpass) {
         exit();
     }
 
-
     // Если логин и почта уникальны, создаем нового пользователя
     $sql = "INSERT INTO `users` (login, password, email) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if (!$stmt) {
         die("Ошибка подготовки запроса: " . $conn->error);
     }
-    $stmt->bind_param("sss", $login, $pass, $email);
+    $stmt->bind_param("sss", $login, $hashedPassword, $email);
     if ($stmt->execute()) {
         session_start();
         $_SESSION['message'] = 'Пользователь успешно создан!';
@@ -60,5 +62,5 @@ if ($pass != $repeatpass) {
     } else {
         echo "Ошибка: " . $stmt->error;
     }
-
 }
+?>
