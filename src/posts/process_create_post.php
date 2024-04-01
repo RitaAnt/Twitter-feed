@@ -17,7 +17,7 @@ if(isset($_SESSION['user_id'])) {
 
             $stmt = $conn->prepare($sql);
 
-            $stmt->bind_param("si", $content, $user_id); // s - строка, i - целое число
+            $stmt->bind_param("si", $content, $user_id);
 
             if($stmt->execute()) {
                 header("Location: ../profile.php");

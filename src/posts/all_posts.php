@@ -62,7 +62,7 @@ session_start();
         }
 
         $user_id = $_SESSION['user_id'];
-        $stmt->bind_param("i", $userId); // "i" указывает, что тип параметра - integer
+        $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -203,21 +203,21 @@ session_start();
         });
 
         // Скрипт для подписки
-        $(document).ready(function(){
-            $(".subscribe-button").click(function(){
+        $(document).on("click", ".subscribe-button", function(){
                 var userId = $(this).data("user-id");
                 var buttonText = $(this).text();
+                console.log("Кнопка отписаться была нажата");
                 if (buttonText === 'Подписаться') {
                     $.post("../follow/subscribe.php", {userId: userId}, function(data, status){
-                        $(".subscribe-button[data-user-id='" + userId + "']").text('Отписаться').prop('disabled', true);
+                        $(".subscribe-button[data-user-id='" + userId + "']").text('Отписаться').prop('disabled', false);
                     });
                 } else {
                     $.post("../follow/unsubscribe.php", {userId: userId}, function(data, status){
                         $(".subscribe-button[data-user-id='" + userId + "']").text('Подписаться').prop('disabled', false);
                     });
                 }
-            });
         });
+
 
     </script>
 
