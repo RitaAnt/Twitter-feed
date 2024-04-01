@@ -12,7 +12,7 @@ session_start();
 </head>
 <body>
     <?php include_once("../includes/navbar.php"); ?>
-        <h1>Лента постов пользователей</h1>
+        <h1>Лента из подписок</h1>
 
         <!-- Пагинация -->
         <div class="pagination">
@@ -52,7 +52,8 @@ session_start();
                 IF(follow.follower_id IS NULL, 'Подписаться', 'Отписаться') AS subscription_status
                 FROM posts 
                 INNER JOIN users ON posts.user_id = users.id 
-                LEFT JOIN follow ON follow.following_id = posts.user_id AND follow.follower_id = ?
+                INNER JOIN follow ON follow.following_id = posts.user_id
+                WHERE follow.follower_id = ?
                 ORDER BY posts.created_at DESC 
                 LIMIT $offset, $posts_per_page";
             
@@ -207,11 +208,11 @@ session_start();
                 var userId = $(this).data("user-id");
                 var buttonText = $(this).text();
                 if (buttonText === 'Подписаться') {
-                    $.post("../follow/subscribe.php", {userId: userId}, function(data, status){
+                    $.post("subscribe.php", {userId: userId}, function(data, status){
                         $(".subscribe-button[data-user-id='" + userId + "']").text('Отписаться').prop('disabled', false);
                     });
                 } else {
-                    $.post("../follow/unsubscribe.php", {userId: userId}, function(data, status){
+                    $.post("unsubscribe.php", {userId: userId}, function(data, status){
                         $(".subscribe-button[data-user-id='" + userId + "']").text('Подписаться').prop('disabled', false);
                     });
                 }
