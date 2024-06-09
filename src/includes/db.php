@@ -1,9 +1,9 @@
 <?php
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "Tweetter feed";
+$servername = "db";
+$username = "user";
+$password = "pass";
+$dbname = "db";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
